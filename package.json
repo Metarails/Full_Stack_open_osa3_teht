@@ -1,0 +1,19 @@
+{
+  "name": "full_stack_open_osa3_teht",
+  "version": "1.0.0",
+  "description": "full stack openin osa3 tehtavia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Metarails/Full_Stack_open_osa3_teht.git"
+  },
+  "author": "Sami",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Metarails/Full_Stack_open_osa3_teht/issues"
+  },
+  "homepage": "https://github.com/Metarails/Full_Stack_open_osa3_teht#readme"
+}
