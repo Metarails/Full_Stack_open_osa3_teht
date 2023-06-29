@@ -4,7 +4,9 @@
   "description": "full stack openin osa3 tehtavia",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/Metarails/Full_Stack_open_osa3_teht/issues"
   },
-  "homepage": "https://github.com/Metarails/Full_Stack_open_osa3_teht#readme"
+  "homepage": "https://github.com/Metarails/Full_Stack_open_osa3_teht#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
