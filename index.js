@@ -37,8 +37,21 @@ let persons = [
 ]
 
 
-app.get("/api/persons", (req,res) => {
-    res.json(persons);
+app.get("/api/persons", (request,response) => {
+    response.json(persons);
+})
+
+app.get("/info", (request,response) => {
+    const pplCount = persons.length;
+    const message = `Phonebook has info for ${pplCount} people`
+    const time = Date();
+    console.log("time: ", time)
+    response.send(
+        `
+        <p>${message}</p>
+        <p>${time}</p>
+        `
+    );
 })
 
 const PORT = 3001 
