@@ -28,11 +28,6 @@ let persons = [
         id: 5,
         name: "test",
         number: "11111"
-    },
-    {
-        id: 6,
-        name: "test2",
-        number: "222222"
     }
 ]
 
@@ -41,11 +36,22 @@ app.get("/api/persons", (request,response) => {
     response.json(persons);
 })
 
+app.get("/api/persons/:id", (request, response) => {
+    const id = Number(request.params.id);
+    const person = persons.find(person => person.id === id);
+
+    if (person) {
+        response.json(person);
+    } else {
+        response.status(404).end();
+    }
+})
+
 app.get("/info", (request,response) => {
     const pplCount = persons.length;
     const message = `Phonebook has info for ${pplCount} people`
     const time = Date();
-    console.log("time: ", time)
+    // console.log("time: ", time)
     response.send(
         `
         <p>${message}</p>
