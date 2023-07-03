@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:no_build": "cd ../Full_stack_open_osa3_teht_front_puh && npm run build && @powershell Copy-Item build -Recurse ../Full_Stack_open_osa3_teht",
+    "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../Full_stack_open_osa3_teht_front_puh && npm run build && @powershell Copy-Item build -Recurse ../Full_Stack_open_osa3_teht",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "repository": {
     "type": "git",
