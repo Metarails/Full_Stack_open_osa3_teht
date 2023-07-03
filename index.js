@@ -1,8 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const cors = require("cors");
 
 app.use(express.json());
+app.use(express.static("build"));
+app.use(cors());
 // app.use(morgan("tiny"));
 // :method :url :status :res[content-length] - :response-time ms
 
@@ -63,6 +66,7 @@ app.get("/api/persons/:id", (request, response) => {
 app.post("/api/persons", (request, response) => {
     
     const body = request.body;
+    console.log("body in post: ", body)
 
     if (!body.name || !body.number){
         return response.status(400).json({
