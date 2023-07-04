@@ -5,7 +5,6 @@ const app = express();
 const cors = require("cors");
 
 const Person = require("./models/person");
-const person = require('./models/person');
 
 app.use(express.json());
 app.use(express.static("build"));
@@ -23,40 +22,10 @@ morgan.token("body", (req, res) => {
 
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
-// let persons = [
-//     {
-//         id: 1,
-//         name: "Arto",
-//         number: "040-123456"
-//     },
-//     {
-//         id: 2,
-//         name: "Ada",
-//         number: "39-44-5323523"
-//     },
-//     {
-//         id: 3,
-//         name: "Dan",
-//         number: "12-43-2341234"
-//     },
-//     {
-//         id: 4,
-//         name: "Mary",
-//         number: "39-23-6423122"
-//     },
-//     {
-//         id: 5,
-//         name: "test",
-//         number: "11111"
-//     }
-// ]
-
-
 app.get("/api/persons", (request,response) => {
     Person.find({}).then(person => {
         response.json(person);
     })
-    // response.json(persons);
 })
 
 app.get("/api/persons/:id", (request, response) => {
@@ -69,14 +38,6 @@ app.get("/api/persons/:id", (request, response) => {
             return response.status(404).end();
         }
       })
-
-    // const id = Number(request.params.id);
-    // const person = persons.find(person => person.id === id);
-    // if (person) {
-    //     response.json(person);
-    // } else {
-    //     response.status(404).end();
-    // }
 })
 
 app.post("/api/persons", (request, response) => {
@@ -90,19 +51,20 @@ app.post("/api/persons", (request, response) => {
         });
     }
     
-    if (persons.find(person => person.name === body.name)) {
-        return response.status(400).json({
-            error: "this person already exists in phone book"
-        });
-    }
+    // if (persons.find(person => person.name === body.name)) {
+    //     return response.status(400).json({
+    //         error: "this person already exists in phone book"
+    //     });
+    // }
 
-    const person = {
-        id: Math.floor(Math.random() * 99999999),
+    const person = new Person({
         name: body.name,
-        number: body.number
-    }
-    persons = persons.concat(person);
-    response.json(person);
+        number: body.number,
+    })
+    
+    person.save().then(savedPerson =>{
+        response.json(savedPerson)
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
