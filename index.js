@@ -1,7 +1,11 @@
+require('dotenv').config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
+
+const Person = require("./models/person");
+const person = require('./models/person');
 
 app.use(express.json());
 app.use(express.static("build"));
@@ -19,48 +23,60 @@ morgan.token("body", (req, res) => {
 
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
-let persons = [
-    {
-        id: 1,
-        name: "Arto",
-        number: "040-123456"
-    },
-    {
-        id: 2,
-        name: "Ada",
-        number: "39-44-5323523"
-    },
-    {
-        id: 3,
-        name: "Dan",
-        number: "12-43-2341234"
-    },
-    {
-        id: 4,
-        name: "Mary",
-        number: "39-23-6423122"
-    },
-    {
-        id: 5,
-        name: "test",
-        number: "11111"
-    }
-]
+// let persons = [
+//     {
+//         id: 1,
+//         name: "Arto",
+//         number: "040-123456"
+//     },
+//     {
+//         id: 2,
+//         name: "Ada",
+//         number: "39-44-5323523"
+//     },
+//     {
+//         id: 3,
+//         name: "Dan",
+//         number: "12-43-2341234"
+//     },
+//     {
+//         id: 4,
+//         name: "Mary",
+//         number: "39-23-6423122"
+//     },
+//     {
+//         id: 5,
+//         name: "test",
+//         number: "11111"
+//     }
+// ]
 
 
 app.get("/api/persons", (request,response) => {
-    response.json(persons);
+    Person.find({}).then(person => {
+        response.json(person);
+    })
+    // response.json(persons);
 })
 
 app.get("/api/persons/:id", (request, response) => {
-    const id = Number(request.params.id);
-    const person = persons.find(person => person.id === id);
+    
+    Person.findById(request.params.id).then(person => {
+        console.log("Person found?: ", person)
+        if (person) {
+            return response.json(person);
+        } else {
+            return response.status(404).end();
+        }
+      })
 
-    if (person) {
-        response.json(person);
-    } else {
-        response.status(404).end();
-    }
+    // const id = Number(request.params.id);
+    // const person = persons.find(person => person.id === id);
+    // if (person) {
+    //     response.json(person);
+    // } else {
+    //     response.status(404).end();
+    // }
 })
 
 app.post("/api/persons", (request, response) => {
@@ -97,16 +113,20 @@ app.delete('/api/persons/:id', (request, response) => {
   })
 
 app.get("/info", (request,response) => {
-    const pplCount = persons.length;
-    const message = `Phonebook has info for ${pplCount} people`
-    const time = Date();
-    // console.log("time: ", time)
-    response.send(
-        `
-        <p>${message}</p>
-        <p>${time}</p>
-        `
-    );
+    Person.find({}).then(person => {
+        console.log("info: ", person.length);
+        const pplCount = person.length;
+        const message = `Phonebook has info for ${pplCount} people`
+        const time = Date();
+        // console.log("time: ", time)
+        response.send(
+            `
+            <p>${message}</p>
+            <p>${time}</p>
+            `
+        );
+    })
+    
 })
 
 const PORT = process.env.PORT || 3001 ;
