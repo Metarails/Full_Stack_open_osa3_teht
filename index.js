@@ -61,12 +61,6 @@ app.post("/api/persons", (request, response) => {
             error: "missing required info, must send name and number"
         });
     }
-    
-    // if (persons.find(person => person.name === body.name)) {
-    //     return response.status(400).json({
-    //         error: "this person already exists in phone book"
-    //     });
-    // }
 
     const person = new Person({
         name: body.name,
@@ -108,7 +102,6 @@ app.get("/info", (request,response) => {
         const pplCount = person.length;
         const message = `Phonebook has info for ${pplCount} people`
         const time = Date();
-        // console.log("time: ", time)
         response.send(
             `
             <p>${message}</p>
