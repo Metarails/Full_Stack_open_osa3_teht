@@ -20,7 +20,17 @@ morgan.token("body", (req, res) => {
     return " "
 })
 
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"));
+
+const errorHandler = (error, request, response, next) => {
+    // console.error("error handler middleware: ", error.message)
+  
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    }
+  
+    next(error)
+  }
 
 app.get("/api/persons", (request,response) => {
     Person.find({}).then(person => {
@@ -28,16 +38,17 @@ app.get("/api/persons", (request,response) => {
     })
 })
 
-app.get("/api/persons/:id", (request, response) => {
-    
-    Person.findById(request.params.id).then(person => {
-        console.log("Person found?: ", person)
+app.get("/api/persons/:id", (request, response, next) => {
+
+    Person.findById(request.params.id)
+        .then(person => {
         if (person) {
             return response.json(person);
         } else {
             return response.status(404).end();
         }
       })
+      .catch(error => next(error))
 })
 
 app.post("/api/persons", (request, response) => {
@@ -97,3 +108,5 @@ const PORT = process.env.PORT || 3001 ;
 app.listen(PORT, () => {
     console.log(`Server runnin on port ${PORT}`);
 })
+
+app.use(errorHandler);
