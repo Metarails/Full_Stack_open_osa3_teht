@@ -9,7 +9,8 @@
     "dev": "nodemon index.js",
     "build:no_build": "cd ../Full_stack_open_osa3_teht_front_puh && npm run build && @powershell Copy-Item build -Recurse ../Full_Stack_open_osa3_teht",
     "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../Full_stack_open_osa3_teht_front_puh && npm run build && @powershell Copy-Item build -Recurse ../Full_Stack_open_osa3_teht",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.44.0",
     "nodemon": "^2.0.22"
   }
 }
