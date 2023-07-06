@@ -56,7 +56,7 @@ app.get("/api/persons/:id", (request, response, next) => {
 app.post("/api/persons", (request, response, next) => {
     
     const body = request.body;
-    console.log("body in post: ", body)
+    // console.log("body in post: ", body)
 
     if (!body.name || !body.number){
         return response.status(400).json({
